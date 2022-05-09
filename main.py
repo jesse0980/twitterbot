@@ -16,7 +16,7 @@ except:
 #timeline = api.home_timeline()
 user = api.get_user(screen_name="Davis_Johnson1")
 api.create_friendship(user_id=user.id)
-Austin_timeline = api.user_timeline(user_id=user.id, count=200, include_rts=False, tweet_mode='extended')
-for tweet in Austin_timeline:
+user_timeline = api.user_timeline(user_id=user.id, count=200, include_rts=False, tweet_mode='extended')
+for tweet in user_timeline:
     api.create_favorite(tweet.id)
     api.retweet(tweet.id)
