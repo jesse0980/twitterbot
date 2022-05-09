@@ -1,20 +1,25 @@
 import tweepy
-Api_keys = 'whQ5aXoe0f7OnBqRYxplsDvnz'
-API_secret_key = 'LxiuUTPJtSGRUQhVLwlyKgidmGs4OSUmGHFn8qHrV7KG39fqBq'
-Bearer_token = 'AAAAAAAAAAAAAAAAAAAAACeKcQEAAAAAy35MC2dyEd43PR9lFNBARgZatW8%3DOfROunkFK9MH0hnxKZoQUQlNns9X1Un5y8Gbc7NLUBnUdiVIHU'
-Access_token = '1523482134853435392-T3YcU175wgdUnlNufspbO16cAcKaNA'
-access_secret = 'liF9rIjRzgRQxF4g3KLnOVvDb4Jpt5VsIPHggM7MWvFNs'
 
-auth = tweepy.OAuth1UserHandler(Api_keys, API_secret_key)
-auth.set_access_token(Access_token, access_secret)
+
+def get_info(credential):
+    with open('/home/jezze/Documents/VS Projects/Tweepy bot/keys.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            if credential in line:
+                return line.split("= ",1)[1]
+
+
+
+auth = tweepy.OAuth1UserHandler(get_info('Api_keys').strip(), get_info('API_secret_key').strip())
+auth.set_access_token(get_info('Access_token').strip(), get_info('access_secret').strip())
 api = tweepy.API(auth)
 try:
     api.verify_credentials()
     print('Works!!')
 except:
     print('Problem')
-#timeline = api.home_timeline()
-user = api.get_user(screen_name="Davis_Johnson1")
+timeline = api.home_timeline()
+user = api.get_user(screen_name="jdogster")
 api.create_friendship(user_id=user.id)
 user_timeline = api.user_timeline(user_id=user.id, count=200, include_rts=False, tweet_mode='extended')
 for tweet in user_timeline:
